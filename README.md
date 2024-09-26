@@ -13,7 +13,7 @@ This is a small command line tool meant to making decoding and encoding in Base6
 Using the tool
 `python3 bbase64.py`
 
-Encoding `-e`
-Decoding `-d`
-File or URL `-f`
+Encoding `-e`\
+Decoding `-d`\
+File or URL `-f`\
 Data URL Generator `-du <text/html/png/jpg>`
