@@ -10,11 +10,22 @@ parser.add_argument("-d", "--decode", action="store_true")
 parser.add_argument("-e", "--encode", action="store_true")
 parser.add_argument("-f", "--file", action="store_true")
 parser.add_argument("-du", "--data_url")
+parser.add_argument("-t", "--times")
+
 parser.add_argument("textorfile")
 
 args = parser.parse_args()
 
 text = ""
+
+if args.times:
+    try:
+        times = int(args.times)
+    except Exception:
+        print("Not a real int")
+        exit()
+else:
+    times = 1
 
 if args.file:
     headers = {
@@ -40,11 +51,13 @@ else:
     text = args.textorfile
 
 if args.decode:
-    decoded_text = base64.urlsafe_b64decode(text.encode()).decode()
-    print(decoded_text)
+    for i in range(times):
+        text = base64.urlsafe_b64decode(text.encode()).decode()
+    print(text)
 if args.encode:
-    encoded_text = base64.urlsafe_b64encode(text.encode()).decode().replace("-", "+").replace("_", "/")
-    print(encoded_text)
+    for i in range(times):
+        text = base64.urlsafe_b64encode(text.encode()).decode().replace("-", "+").replace("_", "/")
+    print(text)
 
 if args.data_url:
     if args.data_url == "help":
