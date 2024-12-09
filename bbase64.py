@@ -4,28 +4,27 @@ import base64
 import argparse
 import os
 
+banner = f"""\033[35m██████╗ ██████╗  █████╗ ███████╗███████╗ ██████╗ ██╗  ██╗
+██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝ ██║  ██║
+██████╔╝██████╔╝███████║███████╗█████╗  ███████╗ ███████║
+██╔══██╗██╔══██╗██╔══██║╚════██║██╔══╝  ██╔═══██╗╚════██║
+██████╔╝██████╔╝██║  ██║███████║███████╗╚██████╔╝     ██║
+╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝      ╚═╝
+\033[39m
+"""
+print(banner)
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--decode", action="store_true")
 parser.add_argument("-e", "--encode", action="store_true")
 parser.add_argument("-f", "--file", action="store_true")
 parser.add_argument("-du", "--data_url")
-parser.add_argument("-t", "--times")
-
 parser.add_argument("textorfile")
 
 args = parser.parse_args()
 
 text = ""
-
-if args.times:
-    try:
-        times = int(args.times)
-    except Exception:
-        print("Not a real int")
-        exit()
-else:
-    times = 1
 
 if args.file:
     headers = {
@@ -51,13 +50,14 @@ else:
     text = args.textorfile
 
 if args.decode:
-    for i in range(times):
-        text = base64.urlsafe_b64decode(text.encode()).decode()
-    print(text)
+    try:
+        decoded_text = base64.urlsafe_b64decode(text.encode()).decode()
+        print(decoded_text)
+    except Exception:
+        print("Invalid Base64")
 if args.encode:
-    for i in range(times):
-        text = base64.urlsafe_b64encode(text.encode()).decode().replace("-", "+").replace("_", "/")
-    print(text)
+    encoded_text = base64.urlsafe_b64encode(text.encode()).decode().replace("-", "+").replace("_", "/")
+    print(encoded_text)
 
 if args.data_url:
     if args.data_url == "help":
