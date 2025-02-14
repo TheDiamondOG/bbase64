@@ -36,7 +36,7 @@ if args.file:
         try:
             import requests
         except Exception:
-            print("You need the requests modual to use this")
+            print("You need the requests module to use this")
             exit()
         print("Grabbing Source Code")
         res = requests.get(args.textorfile, headers=headers, allow_redirects=True)
@@ -58,10 +58,12 @@ if args.repeat:
         repeat = int(args.repeat)
     except Exception:
         print("Not a real number...")
+else:
+    repeat = 0
 
 if args.decode:
     try:
-        if repeat:
+        if repeat != 0:
             decoded_text = text
             for i in range(repeat):
                 decoded_text = base64.urlsafe_b64decode(decoded_text.replace("-", "+").replace("_", "/").replace("\\", "/").encode()).decode()
@@ -75,7 +77,7 @@ if args.decode:
     except Exception:
         print("Invalid Base64")
 if args.encode:
-    if repeat:
+    if repeat != 0:
         encoded_text = text
         for i in range(repeat):
             encoded_text = base64.urlsafe_b64encode(encoded_text.encode()).decode().replace("-", "+").replace("_", "/").replace("\\", "/")
