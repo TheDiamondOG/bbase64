@@ -3,6 +3,7 @@
 import base64
 import argparse
 import os
+import random
 
 banner = f"""\033[35m██████╗ ██████╗  █████╗ ███████╗███████╗ ██████╗ ██╗  ██╗
 ██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝ ██║  ██║
@@ -90,6 +91,8 @@ if args.decode:
         print("Invalid Base64")
 if args.encode:
     if repeat != 0:
+        if repeat == "none":
+            repeat = random.randint(1,101)
         encoded_text = text
         for i in range(repeat):
             encoded_text = base64.urlsafe_b64encode(encoded_text.encode()).decode().replace("-", "+").replace("_", "/").replace("\\", "/")
