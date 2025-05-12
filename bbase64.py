@@ -57,16 +57,28 @@ if args.repeat:
     try:
         repeat = int(args.repeat)
     except Exception:
-        print("Not a real number...")
+        if args.repeat == "none":
+            repeat = "none"
+        else:
+            repeat = 0
+            print("Not a real number...")
 else:
     repeat = 0
 
 if args.decode:
     try:
         if repeat != 0:
-            decoded_text = text
-            for i in range(repeat):
-                decoded_text = base64.urlsafe_b64decode(decoded_text.replace("-", "+").replace("_", "/").replace("\\", "/").encode()).decode()
+            if repeat == "none":
+                decoded_text = text
+                while True:
+                    try:
+                        decoded_text = base64.urlsafe_b64decode(decoded_text.replace("-", "+").replace("_", "/").replace("\\", "/").encode()).decode()
+                    except Exception:
+                        break
+            else:
+                decoded_text = text
+                for i in range(repeat):
+                    decoded_text = base64.urlsafe_b64decode(decoded_text.replace("-", "+").replace("_", "/").replace("\\", "/").encode()).decode()
         else:
             decoded_text = base64.urlsafe_b64decode(text.replace("-", "+").replace("_", "/").replace("\\", "/").encode()).decode()
         if args.output:
